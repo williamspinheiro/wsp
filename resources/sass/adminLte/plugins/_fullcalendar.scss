@@ -1,0 +1,193 @@
+//
+// Plugin: Full Calendar
+//
+
+// Calendar title
+.fc-header-title h2 {
+  color: #666;
+  font-size: 15px;
+  line-height: 1.6em;
+  margin-left: 10px;
+}
+
+.fc-header-right {
+  padding-right: 10px;
+}
+
+.fc-header-left {
+  padding-left: 10px;
+}
+
+// Calendar table header cells
+.fc-widget-header {
+  background: #fafafa;
+}
+
+.fc-grid {
+  border: 0;
+  width: 100%;
+}
+
+.fc-widget-header:first-of-type,
+.fc-widget-content:first-of-type {
+  border-left: 0;
+  border-right: 0;
+}
+
+.fc-widget-header:last-of-type,
+.fc-widget-content:last-of-type {
+  border-right: 0;
+}
+
+.fc-toolbar,
+.fc-toolbar.fc-header-toolbar {
+  margin: 0;
+  padding: 1rem;
+}
+
+@include media-breakpoint-down(xs) {
+  .fc-toolbar {
+    flex-direction: column;
+
+    .fc-left {
+      order: 1;
+      margin-bottom: .5rem;
+    }
+
+    .fc-center {
+      order: 0;
+      margin-bottom: .375rem;
+    }
+
+    .fc-right {
+      order: 2;
+    }
+  }
+}
+
+.fc-day-number {
+  font-size: 20px;
+  font-weight: 300;
+  padding-right: 10px;
+}
+
+.fc-color-picker {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+
+  > li {
+    float: left;
+    font-size: 30px;
+    line-height: 30px;
+    margin-right: 5px;
+
+    .fa,
+    .fas,
+    .far,
+    .fab,
+    .fal,
+    .fad,
+    .svg-inline--fa,
+    .ion {
+      transition: transform linear .3s;
+
+      &:hover {
+        @include rotate(30deg);
+      }
+    }
+  }
+}
+
+#add-new-event {
+  transition: all linear .3s;
+}
+
+.external-event {
+  @include box-shadow($card-shadow);
+
+  border-radius: $border-radius;
+  cursor: move;
+  font-weight: 700;
+  margin-bottom: 4px;
+  padding: 5px 10px;
+
+  &:hover {
+    @include box-shadow(inset 0 0 90px rgba(0, 0, 0, 0.2));
+  }
+}
+
+// Buttons
+.fc .fc-button-primary {
+  background-color: $orange;
+  border-color: $orange;
+}
+
+.fc .fc-button-primary:hover {
+  background-color: #cc3e00;
+  border-color: #cc3e00;
+}
+
+.fc .fc-button-primary:disabled {
+  background-color: $orange;
+  border-color: $orange;
+}
+
+.fc .fc-button-primary:not(:disabled).fc-button-active, .fc .fc-button-primary:not(:disabled):active {
+  background-color: $orange;
+  border-color: $orange;
+}
+
+.fc-event-time,
+.fc-event-title {
+  color: $dark;
+}
+
+.fc-daygrid-day-number,
+.fc-col-header-cell-cushion {
+  color: $dark;
+}
+
+.fc .fc-daygrid-day.fc-day-today {
+  background-color: #ff844e;
+}
+
+.fc .fc-timegrid-col.fc-day-today {
+  background-color: #ff844e;
+}
+
+.fc-theme-standard .fc-scrollgrid {
+  border-left: 1px solid $gray-600;
+  border-top: 1px solid $gray-600;
+}
+
+.fc-theme-standard td, .fc-theme-standard th {
+  border: 1px solid $gray-600;
+}
+
+@include dark-mode () {
+  .fc-event-time,
+  .fc-event-title {
+    color: $gray-100;
+  }
+
+  .fc-daygrid-day-number,
+  .fc-col-header-cell-cushion {
+    color: $white;
+  }
+
+  .fc-popover {
+    background: $gray-800;
+  }
+
+  .fc-theme-standard .fc-scrollgrid {
+    border-left: 1px solid $gray-200;
+    border-top: 1px solid $gray-200;
+  }
+
+  .fc-theme-standard td, .fc-theme-standard th {
+    border: 1px solid $gray-200;
+  }
+}
+
+

@@ -1,0 +1,77 @@
+//
+// Component: Toasts
+//
+
+.toasts-top-right {
+  position: absolute;
+  right: 15px;
+  top: 55px;
+  z-index: $zindex-toasts;
+
+  &.fixed {
+    position: fixed;
+  }
+}
+
+.toasts-top-left {
+  left: 15px;
+  position: absolute;
+  top: 55px;
+  z-index: $zindex-toasts;
+
+  &.fixed {
+    position: fixed;
+  }
+}
+
+.toasts-bottom-right {
+  bottom: 15px;
+  position: absolute;
+  right: 15px;
+  z-index: $zindex-toasts;
+
+  &.fixed {
+    position: fixed;
+  }
+}
+
+.toasts-bottom-left {
+  bottom: 15px0;
+  left: 15px;
+  position: absolute;
+  z-index: $zindex-toasts;
+
+  &.fixed {
+    position: fixed;
+  }
+}
+
+@include dark-mode () {
+  .toast {
+    background-color: rgba($dark, .99);
+    color: $white;
+
+    .toast-header {
+      background-color: rgba($dark, .99);
+      color: $gray-100;
+    }
+
+    @each $name, $color in $theme-colors-alt {
+      @include toast-variant($name, $color);
+    }
+
+    @each $name, $color in $colors-alt {
+      @include toast-variant($name, $color);
+    }
+  }
+}
+
+
+.toast {
+  @each $name, $color in $theme-colors {
+    @include toast-variant($name, $color);
+  }
+  @each $name, $color in $colors {
+    @include toast-variant($name, $color);
+  }
+}
