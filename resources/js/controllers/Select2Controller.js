@@ -25,8 +25,8 @@ export class Select2Controller {
             scrollAfterSelect: true,
             width: '100%',
             language: "pt-BR",
-            containerCssClass: "select2-orange",
-            dropdownCssClass: "select2-orange"
+            containerCssClass: "select2-orange-red",
+            dropdownCssClass: "select2-orange-red"
         });
     }
 
@@ -38,8 +38,8 @@ export class Select2Controller {
             scrollAfterSelect: true,
             width: '100%',
             language: "pt-BR",
-            containerCssClass: "select2-orange",
-            dropdownCssClass: "select2-orange"
+            containerCssClass: "select2-orange-red",
+            dropdownCssClass: "select2-orange-red"
         }).on('select2:select', function (e) {
             const event = new Event('change');
             e.currentTarget.dispatchEvent(event);
@@ -55,8 +55,8 @@ export class Select2Controller {
             width: '100%',
             language: "pt-BR",
             allowClear: true,
-            containerCssClass: "select2-orange",
-            dropdownCssClass: "select2-orange"
+            containerCssClass: "select2-orange-red",
+            dropdownCssClass: "select2-orange-red"
         }).on('select2:select', function (e) {
             const event = new Event('change');
             e.currentTarget.dispatchEvent(event);
@@ -93,8 +93,8 @@ export class Select2Controller {
             delay: 250,
             dataSrc: "",
             width: '100%',
-            containerCssClass: "select2-orange",
-            dropdownCssClass: "select2-orange",
+            containerCssClass: "select2-orange-red",
+            dropdownCssClass: "select2-orange-red",
             ajax: {
                 url: params => {
                      return select.getAttribute('url');
@@ -152,8 +152,8 @@ export class Select2Controller {
             delay: 250,
             dataSrc: "",
             width: '100%',
-            containerCssClass: "select2-orange",
-            dropdownCssClass: "select2-orange",
+            containerCssClass: "select2-orange-red",
+            dropdownCssClass: "select2-orange-red",
             ajax: {
                 url: params => {
                      return `/${ select.getAttribute('url') }/${ params.term }`;

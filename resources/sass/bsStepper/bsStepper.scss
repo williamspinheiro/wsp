@@ -29,7 +29,7 @@
   }
   
   .bs-stepper .step-trigger:focus {
-    color: $orange;
+    color: $orange-red;
     outline: none;
   }
   
@@ -93,7 +93,7 @@
   }
   
   .active .bs-stepper-circle {
-    background-color: $orange;
+    background-color: $orange-red;
   }
   
   .bs-stepper-content {

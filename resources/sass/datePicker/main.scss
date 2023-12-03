@@ -56,7 +56,7 @@
   --dp-secondary-color: #c0c4cc;
   --dp-border-color: #ced4da;
   --dp-menu-border-color: #ced4da;
-  --dp-border-color-focus: #ff4e00;
+  --dp-border-color-focus: #FF291A;
   --dp-disabled-color: #e9ecef;
   --dp-scroll-bar-background: #f3f3f3;
   --dp-scroll-bar-color: #959595;
@@ -68,8 +68,8 @@
   --dp-tooltip-color: #fafafa;
   --dp-disabled-color-text: #212121;
   --dp-highlight-color: rgb(25 118 210 / 10%);
-  --dp-orange-color: #ff4e00;
-  --dp-orange-disabled-color: #ff8c59;
+  --dp-orange-red-color: #FF291A;
+  --dp-orange-red-disabled-color: #ff8c59;
 }
 
 @include dark-mode () {
@@ -84,7 +84,7 @@
     --dp-secondary-color: #a9a9a9;
     --dp-border-color: #6c757d;
     --dp-menu-border-color: #2d2d2d;
-    --dp-border-color-focus: #ff4e00;
+    --dp-border-color-focus: #FF291A;
     --dp-disabled-color: #454D55;
     --dp-scroll-bar-background: #212121;
     --dp-scroll-bar-color: #484848;

@@ -13,7 +13,7 @@
 }
 
 .google-visualization-table-tr-sel {
-    background-color: lighten($orange, 20%) !important;
+    background-color: lighten($orange-red, 20%) !important;
 }
 
 .google-visualization-table-tr-over {
@@ -60,7 +60,7 @@
     }
 
     .google-visualization-table-tr-sel {
-        background-color: $orange !important;
+        background-color: $orange-red !important;
     }
 
     .google-visualization-table-tr-over {

@@ -267,7 +267,7 @@ export class TableCustomView {
 
                     return `<span class="kt-switch kt-switch--success dt-active">
                             <div class="custom-control custom-checkbox">
-                            <input class="custom-control-input custom-control-input-orange" type="checkbox" id="${ row.id }" ${ checked } data-id="${ row.id }" data-url="${ th.getAttribute('data-url') }" data-msg="${ this._msg }">
+                            <input class="custom-control-input custom-control-input-orange-red" type="checkbox" id="${ row.id }" ${ checked } data-id="${ row.id }" data-url="${ th.getAttribute('data-url') }" data-msg="${ this._msg }">
                             <label for="${ row.id }" class="custom-control-label">${ label }</label>
                             </div>
                         </span>`;

@@ -158,7 +158,7 @@
         color: lighten($dark, 25%);
 
         &:hover {
-          border-top: 3px solid $orange;
+          border-top: 3px solid $orange-red;
           color: $dark;
         }
 
@@ -524,7 +524,7 @@ html.maximized-card {
       color: darken($white, 25%);
     }
     &.card-outline-tabs .card-header a:hover {
-      border-top-color: $orange;
+      border-top-color: $orange-red;
       border-bottom-color: transparent;
       color: $white;
     }
