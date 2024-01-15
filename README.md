@@ -77,7 +77,7 @@ Run this command to feed the tables:
 You must to use login "system" for the first login to the system.
 
 login: system \
-password: mudar@123
+password: System@2024
 
 ## License
 

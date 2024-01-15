@@ -11,15 +11,28 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('users', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->rememberToken();
-            $table->timestamps();
-        });
+        if (Schema::hasTable('users') == false) {
+            Schema::create('users', function (Blueprint $table) {
+                $table->increments('id')->unsigned();
+                $table->unsignedInteger('profile_id');
+                $table->string('name');
+                $table->string('alias');
+                $table->json('filters')->nullable();
+                $table->string('email')->unique();
+                $table->string('filepath')->nullable();
+                $table->timestamp('email_verified_at')->nullable();
+                $table->string('password');
+                $table->rememberToken();
+                $table->boolean('active')->default(true);
+                $table->boolean('password_temporary')->default(false);
+                $table->timestamps();
+                $table->softDeletes();
+            });
+
+            Schema::table('users', function (Blueprint $table) {
+                $table->foreign('profile_id')->references('id')->on('profiles');
+            });
+        }
     }
 
     /**
