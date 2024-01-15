@@ -1,8 +1,25 @@
 // Fonts
 @import url('https://fonts.bunny.net/css?family=Nunito');
 
+//Font Awesome
+@import '@fortawesome/fontawesome-free/css/all.css';
+
 // Variables
 @import 'variables';
 
-// Bootstrap
-@import 'bootstrap/scss/bootstrap';
+ // Theme AdminLte
+@import 'adminLte/adminlte.scss';
+
+// Plugins
+@import 'dataTable/dataTables.scss';
+@import 'datePicker/main.scss';
+@import 'dualListBox/dualList.scss';
+@import 'select2/select2.scss';
+@import 'bsStepper/bsStepper.scss';
+@import 'switch';
+@import 'scrollToTop';
+@import 'rating';
+@import 'custom';
+@import 'googleCharts';
+@import 'spinner';
+@import 'full-screen';
