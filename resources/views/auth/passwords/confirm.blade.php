@@ -35,7 +35,7 @@
     
                             <div class="row mb-2">
                                 <div class="col-md-12 ">
-                                    <button type="submit" class="btn btn-orange-red btn-sm btn-block">
+                                    <button type="submit" class="btn btn-default-color btn-sm btn-block">
                                         {{ __('pt-BR.' .'Confirm Password') }}
                                     </button>
                                 </div>

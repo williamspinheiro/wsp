@@ -88,7 +88,7 @@
   cursor: pointer;
   border-radius: var(--dp-border-radius);
   text-align: center;
-  background: var(--dp-orange-red-color);
+  background: var(--dp-default-color-color);
   color: var(--dp-primary-text-color);
 }
 
@@ -125,10 +125,10 @@
 
 .dp__overlay_cell_active_disabled {
   cursor: not-allowed;
-  background: var(--dp-orange-red-disabled-color);
+  background: var(--dp-default-color-disabled-color);
 
   &:hover {
-    background: var(--dp-orange-red-disabled-color);
+    background: var(--dp-default-color-disabled-color);
   }
 }
 

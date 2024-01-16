@@ -13,9 +13,9 @@
                     <div class="card-body">
                         @if (Route::has('login'))
                             @auth
-                                <a href="{{ url('/home') }}" class="btn btn-orange-red btn-sm btn-block">Home</a>
+                                <a href="{{ url('/home') }}" class="btn btn-default-color btn-sm btn-block">Home</a>
                             @else
-                                <a href="{{ route('login') }}" class="btn btn-orange-red btn-sm btn-block">Login</a>
+                                <a href="{{ route('login') }}" class="btn btn-default-color btn-sm btn-block">Login</a>
                             @endauth
                         @endif
                     </div>

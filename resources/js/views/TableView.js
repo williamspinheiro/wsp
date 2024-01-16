@@ -1,6 +1,7 @@
 import { TableCustomView } from "./TableCustomView";
 import { View } from './View';
 import { ReorderTable } from "../helpers/ReorderTable";
+import { SpinnerController } from '../controllers/SpinnerController'
 
 export class TableView extends View {
 
@@ -9,6 +10,7 @@ export class TableView extends View {
         super();
 
         this._table = table;
+        this._spinner = new SpinnerController();
         this._form = form;
         this._customView = new TableCustomView;
         this.reorderHelper = new ReorderTable(this._table);
@@ -16,8 +18,12 @@ export class TableView extends View {
         this.loadTable(this);
     }
 
-    reloadTable () {
+    reloadTable (_table) {
         let table = $( this._table ).DataTable();
+
+        if(_table)
+            table = $( _table ).DataTable()
+
         table.ajax.reload().responsive.recalc();
     }
 
@@ -31,7 +37,7 @@ export class TableView extends View {
             let url = this._table.getAttribute('data-url');
             let lenguage = this.lenguage;
             let reorder = this.reorderHelper.hasReorder();
-            let order = ( this._table.hasAttribute('data-order-by') ) ? this._table.getAttribute('data-order-by').split(', ') : [ 0, 'desc' ];
+            let order = ( this._table.hasAttribute('data-order-by') ) ? this._table.getAttribute('data-order-by').split(', ') : [ 0, 'desc'];
 
             let _table = table.DataTable({
                 rowReorder: reorder,
@@ -39,6 +45,7 @@ export class TableView extends View {
                 processing: true,
                 serverSide: true,
                 language: lenguage,
+                responsive: true,
                 ajax: {
                     url: url,
                     type: "POST",
@@ -50,7 +57,7 @@ export class TableView extends View {
                     }
                 },
                 columns: columns,
-                order: order,
+                order: [parseInt(order[0]), order[1]],
 
                 columnDefs: [ {
                     orderable: false,
@@ -70,194 +77,21 @@ export class TableView extends View {
 
                 rowCallback: function ( row, data ) {
 
+                    $('table').unbind('click');
+
                     let tds = row.querySelectorAll( 'td' );
-                    let active = row.querySelectorAll('.dt-active input');
-                    let checkboxs = row.querySelectorAll('.dt-checkbox-dynamic input');
+                    let actives = row.querySelectorAll('.dt-active input');
+                    let checkboxes = row.querySelectorAll('.dt-checkbox-dynamic input');
 
-                    tds.forEach( ( td, i ) => {
+                    self.setModalsButtons(self);
+                    
+                    self.setConfirmAction(self);
 
-                       self.setModalsButtons(td);
-                        
-                        if ( i == (self._ths.length - 1) && td.querySelector( 'a.delete' ) ) {
+                    self.setDeleteButtons(self);
 
-                            td.querySelector('a.delete').addEventListener('click', function () {
-                                
-                                if (confirm(`Deseja realmente remover este(a) ${ this.getAttribute('data-msg') }?`))
-                                    self.removeItem(this.getAttribute('url'))
-                                        .then(response => {
-                                            $(document).Toasts('create', {
-                                                class: 'bg-success-default',
-                                                title: 'Ação executada com sucesso.',
-                                                body: `&nbsp; ${ this.getAttribute('data-msg') } removido(a) com sucesso.`,
-                                                icon: 'fa-solid fa-check',
-                                                delay: 6000,
-                                                autohide: true,
-                                                animation: true,
-                                            });
-                                            self.reloadTable();
-                                        }).catch(error => {
-                                            $(document).Toasts('create', {
-                                                class: 'bg-danger-default',
-                                                title: 'Ocorreu um erro!',
-                                                body: `&nbsp; Ocorreu um erro ao remover o(a) ${ this.getAttribute('data-msg') }.`,
-                                                icon: 'fa-solid fa-xmark',
-                                                delay: 6000,
-                                                autohide: true,
-                                                animation: true,
-                                            });
-                                        });
-                            });
-                        }
-                        
-                        if ( i == (self._ths.length - 1) && td.querySelector( 'a[confirm="true"]' ) ) {
+                    self.setActivesCheckboxes(actives, self);
 
-                            var confirmButtons = td.querySelectorAll('a[confirm="true"]')
-
-                            confirmButtons.forEach(button => {
-
-                                button.addEventListener('click', function () {
-                                
-                                    if (confirm(`${this.getAttribute('confirm-message')} ${ this.getAttribute('data-msg') }?`)) {
-    
-                                        let json = JSON.parse(this.getAttribute('data-json'));
-    
-                                        axios.post(this.getAttribute('url'), {  id: json[this.getAttribute('field')] })
-                                            .then(response => {
-    
-                                                if (response.data.status == 'success')
-                                                    $(document).Toasts('create', {
-                                                        class: 'bg-success-default',
-                                                        title: 'Ação executada com sucesso.',
-                                                        body: `&nbsp; ${ response.data.message }`,
-                                                        icon: 'fa-solid fa-check',
-                                                        delay: 6000,
-                                                        autohide: true,
-                                                        animation: true,
-                                                    });
-                                                else
-                                                    $(document).Toasts('create', {
-                                                        class: 'bg-danger-default',
-                                                        title: 'Ocorreu um erro!',
-                                                        body: `&nbsp; ${ response.data.message }.`,
-                                                        icon: 'fa-solid fa-xmark',
-                                                        delay: 6000,
-                                                        autohide: true,
-                                                        animation: true,
-                                                    });
-    
-                                                    self.reloadTable();
-    
-                                            }).catch(error => {
-                                                this.checked = true;
-                                                $(document).Toasts('create', {
-                                                    class: 'bg-danger-default',
-                                                    title: 'Ocorreu um erro!',
-                                                    body: `&nbsp; ${ error.response.data.message }.`,
-                                                    icon: 'fa-solid fa-xmark',
-                                                    delay: 6000,
-                                                    autohide: true,
-                                                    animation: true,
-                                                });
-                                            });
-                                    }
-                                       
-                                });
-                            });
-                        }
-                    });
-
-                    active.forEach(( checkbox, i ) => {
-
-                        checkbox.addEventListener('change', function() {
-
-                            let action = (this.checked) ? ['ativar', 'ativado(a)'] : ['inativar', 'inativado(a)'];
-
-                            if (!confirm(`Deseja realmente ${ action[0] } este item?`))
-                                return;
-                            
-                            axios.post(this.getAttribute('data-url'), {  id: this.getAttribute('data-id'), active: this.checked })
-                                    .then(response => {
-
-                                        this.parentNode.querySelector('label').innerText = ((this.checked) ? 'Ativo' : 'Inativo');
-
-                                        if (response.data)
-                                            $(document).Toasts('create', {
-                                                class: 'bg-success-default',
-                                                title: 'Ação executada com sucesso.',
-                                                body: `&nbsp; ${ this.getAttribute('data-msg') } ${ action[1] } com sucesso!`,
-                                                icon: 'fa-solid fa-check',
-                                                delay: 6000,
-                                                autohide: true,
-                                                animation: true,
-                                            });
-                                        else
-                                            $(document).Toasts('create', {
-                                                class: 'bg-danger-default',
-                                                title: 'Ocorreu um erro!',
-                                                body: `&nbsp; ${ error.response.data.message }.`,
-                                                icon: 'fa-solid fa-xmark',
-                                                delay: 6000,
-                                                autohide: true,
-                                                animation: true,
-                                            });
-                                    }).catch(error => {
-                                        this.checked = true;
-                                        $(document).Toasts('create', {
-                                            class: 'bg-danger-default',
-                                            title: 'Ocorreu um erro!',
-                                            body: `&nbsp; ${ error.response.data.message }.`,
-                                            icon: 'fa-solid fa-xmark',
-                                            delay: 6000,
-                                            autohide: true,
-                                            animation: true,
-                                        });
-                                    });
-                        })
-                    });
-
-                    checkboxs.forEach((checkbox, i) => {
-
-                        checkbox.addEventListener('change', function() {
-
-                            if (!confirm(`Deseja realmente executar essa ação?`))
-                                return;
-                            
-                            axios.post(this.getAttribute('data-url'), { ...JSON.parse(this.getAttribute('data-json')), value: this.checked })
-                                .then(response => {
-
-                                    if (response.data)
-                                        $(document).Toasts('create', {
-                                                class: 'bg-success-default',
-                                                title: 'Ação executada com sucesso.',
-                                                body: `&nbsp; ${ this.getAttribute('data-msg') }`,
-                                                icon: 'fa-solid fa-check',
-                                                delay: 6000,
-                                                autohide: true,
-                                                animation: true,
-                                            });
-                                    else
-                                        $(document).Toasts('create', {
-                                            class: 'bg-danger-default',
-                                            title: 'Ocorreu um erro!',
-                                            body: `&nbsp; ${ error.response.data.message }.`,
-                                            icon: 'fa-solid fa-xmark',
-                                            delay: 6000,
-                                            autohide: true,
-                                            animation: true,
-                                        });
-                                }).catch(error => {
-                                    $(document).Toasts('create', {
-                                        class: 'bg-danger-default',
-                                        title: 'Ocorreu um erro!',
-                                        body: `&nbsp; ${ error.response.data.message }.`,
-                                        icon: 'fa-solid fa-xmark',
-                                        delay: 6000,
-                                        autohide: true,
-                                        animation: true,
-                                    });
-                                });
-                        });
-                    });
+                    self.setCheckboxes(checkboxes)
                     
                 },
 
@@ -310,17 +144,218 @@ export class TableView extends View {
             this.reloadTable();
     }
 
-    setModalsButtons(td) {
-        let modals = td.querySelectorAll('a.modal-edit')
+    setCheckboxes(checkboxes) {
 
-        modals.forEach(modal => {
-            modal?.addEventListener('click', function() {
+        checkboxes.forEach((checkbox, i) => {
+
+            checkbox.addEventListener('change', function() {
+
+                if (!confirm(`Deseja realmente executar essa ação?`))
+                    return;
                 
-                document.querySelector(this.getAttribute('modal-id'))
-                        .setAttribute('data-json', this.getAttribute('data-json'));
-                $(this.getAttribute('modal-id')).modal('show');
+                axios.post(this.getAttribute('data-url'), { ...JSON.parse(this.getAttribute('data-json')), value: this.checked })
+                    .then(response => {
+
+                        if (response.data)
+                            $(document).Toasts('create', {
+                                    class: 'bg-success-default',
+                                    title: 'Ação executada com sucesso.',
+                                    body: `&nbsp; ${ this.getAttribute('data-msg') }`,
+                                    icon: 'fa-solid fa-check',
+                                    delay: 6000,
+                                    autohide: true,
+                                    animation: true,
+                                });
+                        else
+                            $(document).Toasts('create', {
+                                class: 'bg-danger-default',
+                                title: 'Ocorreu um erro!',
+                                body: `&nbsp; ${ error.response.data.message }.`,
+                                icon: 'fa-solid fa-xmark',
+                                delay: 6000,
+                                autohide: true,
+                                animation: true,
+                            });
+                    }).catch(error => {
+                        $(document).Toasts('create', {
+                            class: 'bg-danger-default',
+                            title: 'Ocorreu um erro!',
+                            body: `&nbsp; ${ error.response.data.message }.`,
+                            icon: 'fa-solid fa-xmark',
+                            delay: 6000,
+                            autohide: true,
+                            animation: true,
+                        });
+                    });
             });
-        })
+        });
+    }
+
+    setActivesCheckboxes(inputs, self) {
+
+        inputs.forEach(( checkbox, i ) => {
+
+            checkbox.addEventListener('change', function() {
+
+                let action = (this.checked) ? ['ativar', 'ativado(a)'] : ['inativar', 'inativado(a)'];
+
+                if (!confirm(`Deseja realmente ${ action[0] } este item?`))
+                    return;
+    
+                self._spinner.show();
+
+                axios.post(this.getAttribute('data-url'), {  id: this.getAttribute('data-id'), active: this.checked })
+                        .then(response => {
+
+                            this.parentNode.querySelector('label').innerText = ((this.checked) ? 'Ativo' : 'Inativo');
+
+                            if (response.data)
+                                $(document).Toasts('create', {
+                                    class: 'bg-success-default',
+                                    title: 'Ação executada com sucesso.',
+                                    body: `&nbsp; ${ this.getAttribute('data-msg') } ${ action[1] } com sucesso!`,
+                                    icon: 'fa-solid fa-check',
+                                    delay: 6000,
+                                    autohide: true,
+                                    animation: true,
+                                });
+                            else
+                                $(document).Toasts('create', {
+                                    class: 'bg-danger-default',
+                                    title: 'Ocorreu um erro!',
+                                    body: `&nbsp; ${ error.response.data.message }.`,
+                                    icon: 'fa-solid fa-xmark',
+                                    delay: 6000,
+                                    autohide: true,
+                                    animation: true,
+                                });
+                        }).catch(error => {
+                            this.checked = true;
+                            $(document).Toasts('create', {
+                                class: 'bg-danger-default',
+                                title: 'Ocorreu um erro!',
+                                body: `&nbsp; ${ error.response.data.message }.`,
+                                icon: 'fa-solid fa-xmark',
+                                delay: 6000,
+                                autohide: true,
+                                animation: true,
+                            });
+                        }).then(response => self._spinner.hide());
+            })
+        });
+    }
+
+    setConfirmAction(self) {
+
+        $("table").on('click', 'a[confirm="true"]', function () {
+        
+            if (confirm(`${this.getAttribute('confirm-message')} ${ this.getAttribute('data-msg') }?`)) {
+
+                self._spinner.show();
+
+                let json = JSON.parse(this.getAttribute('data-json'));
+
+                axios.post(this.getAttribute('url'), {  id: json[this.getAttribute('field')] })
+                    .then(response => {
+
+                        if (response.data.status == 'success')
+                            $(document).Toasts('create', {
+                                class: 'bg-success-default',
+                                title: 'Ação executada com sucesso.',
+                                body: `&nbsp; ${ response.data.message }`,
+                                icon: 'fa-solid fa-check',
+                                delay: 6000,
+                                autohide: true,
+                                animation: true,
+                            });
+                        else
+                            $(document).Toasts('create', {
+                                class: 'bg-danger-default',
+                                title: 'Ocorreu um erro!',
+                                body: `&nbsp; ${ response.data.message }.`,
+                                icon: 'fa-solid fa-xmark',
+                                delay: 6000,
+                                autohide: true,
+                                animation: true,
+                            });
+
+                            self.reloadTable(self.getParentTable(this, 'table'));
+
+                    }).catch(error => {
+                        this.checked = true;
+                        $(document).Toasts('create', {
+                            class: 'bg-danger-default',
+                            title: 'Ocorreu um erro!',
+                            body: `&nbsp; ${ error.response.data.message }.`,
+                            icon: 'fa-solid fa-xmark',
+                            delay: 6000,
+                            autohide: true,
+                            animation: true,
+                        });
+                    }).then(response => self._spinner.hide());
+            }
+        });
+    }
+
+    getParentTable(el, tagName) {
+        tagName = tagName.toLowerCase();
+      
+        while (el && el.parentNode) {
+          el = el.parentNode;
+          if (el.tagName && el.tagName.toLowerCase() == tagName) {
+            return el;
+          }
+        }
+      
+        // Many DOM methods return null if they don't 
+        // find the element they are searching for
+        // It would be OK to omit the following and just
+        // return undefined
+        return null;
+      }
+
+    setDeleteButtons(self) {
+
+        $("table").on('click', 'a.delete', function () {
+            if (confirm(`Deseja realmente remover este(a) ${ this.getAttribute('data-msg') }?`) == false)
+                return
+
+                self._spinner.show();
+        
+                self.removeItem(this.getAttribute('url'))
+                    .then(response => {
+                        $(document).Toasts('create', {
+                            class: 'bg-success-default',
+                            title: 'Ação executada com sucesso.',
+                            body: `&nbsp; ${ this.getAttribute('data-msg') } removido(a) com sucesso.`,
+                            icon: 'fa-solid fa-check',
+                            delay: 6000,
+                            autohide: true,
+                            animation: true,
+                        });
+                        self.reloadTable(self.getParentTable(this, 'table'));
+                    }).catch(error => {
+                        $(document).Toasts('create', {
+                            class: 'bg-danger-default',
+                            title: 'Ocorreu um erro!',
+                            body: `&nbsp; Ocorreu um erro ao remover o(a) ${ this.getAttribute('data-msg') }.`,
+                            icon: 'fa-solid fa-xmark',
+                            delay: 6000,
+                            autohide: true,
+                            animation: true,
+                        });
+                    }).then(response => self._spinner.hide());
+        });
+    }
+
+    setModalsButtons(self) {
+
+        $("table").on('click', 'a.modal-edit', function () {
+            document.querySelector(this.getAttribute('modal-id'))
+                    .setAttribute('data-json', this.getAttribute('data-json').replace(/\'/g, '’'));
+                
+            $(this.getAttribute('modal-id')).modal('show');
+        });        
     }
 
     setHighlight(row, data, index) {
@@ -344,7 +379,18 @@ export class TableView extends View {
 
             this.showSpinner();
 
-            axios.post(this._table.getAttribute('btn-url'), this.setfilterForm( { export: true } ), { responseType: 'blob' })
+            const formData = new FormData();
+            const object = this.setfilterForm( { export: true } );
+            Object.keys(object).forEach(key => 
+                {
+                    console.log(key);
+                    if(Array.isArray(object[key]) == true){
+                        object[key].forEach(field => formData.append(key, field))
+                    } else
+                        formData.append(key, object[key])
+                });
+
+            axios.post(this._table.getAttribute('btn-url'), formData, { responseType: 'blob' })
                 .then(response => {
                     
                     const type = response.headers['content-type']
@@ -375,7 +421,12 @@ export class TableView extends View {
                 columns.push( this._customView.setCustomization( type, ths[i], this._table ) );
             } else {
                 let column = ths[i].getAttribute('column');
-                columns.push({ data: column, className: 'td_', class: ths[i].getAttribute('data-class'), orderable: String(order) == 'true' });
+                columns.push({ 
+                                data: column, 
+                                className: 'td_', 
+                                class: ths[i].getAttribute('data-class'), 
+                                orderable: String(order) == 'true' 
+                            });
             }
         }
 
@@ -429,10 +480,14 @@ export class TableView extends View {
                 obj[key] = inputs[i].value;
             else {
 
-                if (typeof(obj[key]) != "object") 
-                    obj[key] = [];
+                if (inputs[i].hasAttribute('multiple') == false){
+                    if (typeof(obj[key]) != "object") 
+                        obj[key] = [];
 
-                obj[key].push(inputs[i].value);
+                    obj[key].push(inputs[i].value);
+                } else {
+                    obj[key] = $(inputs[i]).val();
+                }
             }
         }
 

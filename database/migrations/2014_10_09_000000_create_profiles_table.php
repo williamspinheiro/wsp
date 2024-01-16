@@ -16,6 +16,7 @@ return new class extends Migration
                 $table->increments('id')->unsigned();
                 $table->string('name')->unique();
                 $table->string('alias');
+                $table->longText('description')->nullable();
                 $table->json('filters')->nullable();
                 $table->boolean('active')->default(true);
                 $table->timestamps();

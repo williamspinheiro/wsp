@@ -78,7 +78,7 @@
     color: $white;
   }
   .select2-results__option[aria-selected="true"] {
-    background-color: $orange-red !important;
+    background-color: $default-color !important;
     color: $gray-300;
   }
   .select2-container .select2-search--inline .select2-search__field {

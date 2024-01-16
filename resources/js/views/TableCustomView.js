@@ -211,7 +211,8 @@ export class TableCustomView {
     setButton (e, url, disabled = false, json = {}, action) {
 
         let urlAtrribute = url;
-        let _class = action.permission ?? action.class;
+        let _class = action.class;
+        let permission = action.permission ?? action.class;
         let conditions = action.conditions;
         let conditionSeparator = action.condition_separator ?? '&&';
         let modalId = action.modal_id;
@@ -219,13 +220,13 @@ export class TableCustomView {
         if (this.canShowButton(conditions, conditionSeparator, json))
             return "";
 
-        if (!this.can(e, _class) && !modalId)
+        if (!this.can(e, permission))
             return "";
 
         if (action.method == 'POST' || modalId)
             url = 'javascript:;';
 
-        if (_class == 'delete' || !url)
+        if (permission == 'delete' || !url)
             url = 'javascript:;'
 
         action.target = (action.target) ? (action.target) : '_self';
@@ -233,7 +234,7 @@ export class TableCustomView {
         disabled = (disabled) ? 'disabled' : '';
         
         return `<a href="${ (disabled) ? 'javascript:;' : url }" url="${ urlAtrribute }" style="color:#3d3d3d;margin-right:5px;" 
-                data-json=\'${ JSON.stringify(json) }\'
+                data-json=\'${ JSON.stringify(json).replace(/\'/g, '’') }\'
                 modal-id="${ modalId }"
                 data-toggle="tooltip" 
                 data-msg="${ this._msg }" 
@@ -267,7 +268,7 @@ export class TableCustomView {
 
                     return `<span class="kt-switch kt-switch--success dt-active">
                             <div class="custom-control custom-checkbox">
-                            <input class="custom-control-input custom-control-input-orange-red" type="checkbox" id="${ row.id }" ${ checked } data-id="${ row.id }" data-url="${ th.getAttribute('data-url') }" data-msg="${ this._msg }">
+                            <input class="custom-control-input custom-control-input-default-color" type="checkbox" id="${ row.id }" ${ checked } data-id="${ row.id }" data-url="${ th.getAttribute('data-url') }" data-msg="${ this._msg }">
                             <label for="${ row.id }" class="custom-control-label">${ label }</label>
                             </div>
                         </span>`;

@@ -47,7 +47,7 @@
         </div>
         <!-- ./wrapper -->
 
-        <button type="button" class="btn btn-orange-red btn-floating btn-lg" id="btn-back-to-top">
+        <button type="button" class="btn btn-default-color btn-floating btn-lg" id="btn-back-to-top">
             <i class="fas fa-arrow-up"></i>
         </button>
     </body>

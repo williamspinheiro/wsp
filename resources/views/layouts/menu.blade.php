@@ -3,7 +3,7 @@
     <!-- Sidebar user panel (optional) -->
     <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="image">
-            <img src="{{ asset('img/anon_red.png') }}" class="img-circle elevation-2" alt="{{ Auth::user()->name }}">
+            @component('components.img.anon', ['color' => '#FF291A'])@endcomponent
         </div>
         <div class="info">
             <a href="#" class="d-block">{{ Auth::user()->name }}</a>
@@ -41,41 +41,36 @@
             <div class="user-panel my-2"></div>
 
             <!-- Nav Item - Configurações -->
-            <li class="nav-item">
-                <a href="#" class="nav-link" data-parent="#accordionSidebar">
-                    <i class="fa-solid fa-gears nav-icon"></i>
-                    <p>
-                        Configurações
-                        <i class="fas fa-angle-left right"></i>
-                    </p>
-                </a>
-                <ul class="nav nav-treeview" style="display: none;">                   
-                    <!-- Nav Item - Usuários -->
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">
-                            <i class="nav-icon fa-solid fa-users-gear"></i>
-                            <p>
-                                Usuários
-                                <i class="fas fa-angle-left right"></i>
-                            </p>
-                        </a>
-                        <ul class="nav nav-treeview" style="display: none;">
+            @if (Auth::user()->can('index', App\Models\User::class)
+                || Auth::user()->can('index', App\Models\Profile::class))
+                <li class="nav-item">
+                    <a href="#" class="nav-link" data-parent="#accordionSidebar">
+                        <i class="fa-solid fa-gears nav-icon"></i>
+                        <p>
+                            Configurações
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview" style="display: none;">
+                        @if (Auth::user()->can('index', App\Models\Profile::class))
                             <li class="nav-item">
-                                <a href="#" class="nav-link">
+                                <a href="{{ URL::action([App\Http\Controllers\ProfileController::class, 'index']) }}" class="nav-link">
                                     <i class="nav-icon fa-solid fa-user-gear"></i>
                                     <p>Grupo de Acessos</p>
                                 </a>
                             </li>
+                        @endif
+                        @if (Auth::user()->can('index', App\Models\User::class))
                             <li class="nav-item">
-                                <a href="#" class="nav-link">
+                                <a href="{{ URL::action([App\Http\Controllers\UserController::class, 'index']) }}" class="nav-link">
                                     <i class="nav-icon fa-solid fa-user-tie"></i>
                                     <p>Usuários</p>
                                 </a>
                             </li>
-                        </ul>
-                    </li>
-                </ul>
-            </li>
+                        @endif
+                    </ul>
+                </li>
+            @endif
             <!-- Divider -->
             <div class="user-panel my-2"></div>
         </ul>

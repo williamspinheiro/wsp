@@ -9,6 +9,7 @@ export class Select2Controller {
         this._id = 'id';
 
         if (this._selects)
+
             this.init();
 
             this.initMultiselect();
@@ -19,15 +20,32 @@ export class Select2Controller {
     }
 
     initMultiselect() {
-        $('.select-multiple').select2({ 
-            multiple: true, 
-            closeOnSelect: false, 
-            scrollAfterSelect: true,
-            width: '100%',
-            language: "pt-BR",
-            containerCssClass: "select2-orange-red",
-            dropdownCssClass: "select2-orange-red"
-        });
+        let selects = document.querySelectorAll('.select-multiple');
+
+        selects.forEach((select, i) => {
+            $(select).select2({
+                placeholder: "Selecione",
+                multiple: true,
+                closeOnSelect: false,
+                scrollAfterSelect: true,
+                width: '100%',
+                language: "pt-BR",
+                containerCssClass: "select2-default-color",
+                dropdownCssClass: "select2-default-color",
+            }).on('select2:select', function (e) {
+                const event = new Event('change');
+                e.currentTarget.dispatchEvent(event);
+            }).on("select2:unselecting", function (evt) {
+                $(this).on("select2:opening.cancelOpen", function (evt) {
+                    evt.preventDefault();
+
+                    $(this).off("select2:opening.cancelOpen");
+                });
+            }).on("select2:unselect", function(e) {
+                const event = new Event('change');
+                e.currentTarget.dispatchEvent(event);
+            });;
+        })
     }
 
     initSelect() {
@@ -38,8 +56,8 @@ export class Select2Controller {
             scrollAfterSelect: true,
             width: '100%',
             language: "pt-BR",
-            containerCssClass: "select2-orange-red",
-            dropdownCssClass: "select2-orange-red"
+            containerCssClass: "select2-default-color",
+            dropdownCssClass: "select2-default-color"
         }).on('select2:select', function (e) {
             const event = new Event('change');
             e.currentTarget.dispatchEvent(event);
@@ -47,20 +65,26 @@ export class Select2Controller {
     }
 
     initSelectClear() {
-        $('.select-research-clear').select2({ 
+        $('.select-research-clear').select2({
             placeholder: "Selecione",
-            multiple: false, 
-            closeOnSelect: true, 
+            multiple: false,
+            closeOnSelect: true,
             scrollAfterSelect: true,
             width: '100%',
             language: "pt-BR",
             allowClear: true,
-            containerCssClass: "select2-orange-red",
-            dropdownCssClass: "select2-orange-red"
+            containerCssClass: "select2-default-color",
+            dropdownCssClass: "select2-default-color"
         }).on('select2:select', function (e) {
             const event = new Event('change');
             e.currentTarget.dispatchEvent(event);
-        });   
+        }).on("select2:clear", function (evt) {
+            $(this).on("select2:opening.cancelOpen", function (evt) {
+              evt.preventDefault();
+
+              $(this).off("select2:opening.cancelOpen");
+            });
+        });
     }
 
     init() {
@@ -93,8 +117,8 @@ export class Select2Controller {
             delay: 250,
             dataSrc: "",
             width: '100%',
-            containerCssClass: "select2-orange-red",
-            dropdownCssClass: "select2-orange-red",
+            containerCssClass: "select2-default-color",
+            dropdownCssClass: "select2-default-color",
             ajax: {
                 url: params => {
                      return select.getAttribute('url');
@@ -136,6 +160,12 @@ export class Select2Controller {
 
             if ( input )
                 input.value = text.trim();
+        }).on("select2:clear", function (evt) {
+            $(this).on("select2:opening.cancelOpen", function (evt) {
+              evt.preventDefault();
+
+              $(this).off("select2:opening.cancelOpen");
+            });
         });
     }
 
@@ -152,8 +182,8 @@ export class Select2Controller {
             delay: 250,
             dataSrc: "",
             width: '100%',
-            containerCssClass: "select2-orange-red",
-            dropdownCssClass: "select2-orange-red",
+            containerCssClass: "select2-default-color",
+            dropdownCssClass: "select2-default-color",
             ajax: {
                 url: params => {
                      return `/${ select.getAttribute('url') }/${ params.term }`;
@@ -180,6 +210,12 @@ export class Select2Controller {
 
             if ( input )
                 input.value = text.trim();
+        }).on("select2:clear", function (evt) {
+            $(this).on("select2:opening.cancelOpen", function (evt) {
+              evt.preventDefault();
+
+              $(this).off("select2:opening.cancelOpen");
+            });
         });
     }
 

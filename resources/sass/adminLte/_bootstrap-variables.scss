@@ -40,29 +40,29 @@ $purple:        #6f42c1 !default;
 $pink:          #e83e8c !default;
 $red:           #dc3545 !default;
 $red-default:   #f8d7da !default;
-$orange-red:        #FF291A !default;
 $yellow:        #ffc107 !default;
 $yellow-default:#fff3cd !default;
 $green:         #28a745 !default;
 $green-default: #d4edda !default;
 $teal:          #20c997 !default;
 $cyan:          #17a2b8 !default;
+$default-color: #FF291A !default;
 
 $colors: () !default;
 $colors: map-merge((
-  "blue":       $blue,
-  "indigo":     $indigo,
-  "purple":     $purple,
-  "pink":       $pink,
-  "red":        $red,
-  "orange-red":     $orange-red,
-  "yellow":     $yellow,
-  "green":      $green,
-  "teal":       $teal,
-  "cyan":       $cyan,
-  "white":      $white,
-  "gray":       $gray-600,
-  "gray-dark":  $gray-800
+  "blue":           $blue,
+  "indigo":         $indigo,
+  "purple":         $purple,
+  "pink":           $pink,
+  "red":            $red,
+  "yellow":         $yellow,
+  "green":          $green,
+  "teal":           $teal,
+  "cyan":           $cyan,
+  "white":          $white,
+  "gray":           $gray-600,
+  "gray-dark":      $gray-800,
+  "default-color":  $default-color,
 ), $colors);
 
 $primary:       $blue !default;
@@ -86,11 +86,11 @@ $theme-colors: map-merge((
   "light":               $light,
   "dark":                $dark,
   "gray":                $gray,
-  "orange-red":              $orange-red,
   "black":               $black,
   "success-default":     $green-default,
   "danger-default":      $red-default,
-  "warning-default":     $yellow-default
+  "warning-default":     $yellow-default,
+  "default-color":       $default-color,
 ), $theme-colors);
 // stylelint-enable
 
@@ -236,7 +236,7 @@ $border-radius-lg:            .3rem !default;
 $border-radius-sm:            .2rem !default;
 
 $component-active-color:      $white !default;
-$component-active-bg:         $orange-red !default;
+$component-active-bg:         $default-color !default;
 
 $caret-width:                 .3em !default;
 

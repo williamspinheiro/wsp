@@ -41,7 +41,7 @@
         cursor: pointer;
 
         &:hover {
-            background-color: $orange-red;
+            background-color: $default-color;
         }
     }
 
@@ -68,7 +68,7 @@
         transition: background 0.2s ease;
 
         &.dual-listbox__item--selected {
-            background-color: transparentize($orange-red, 0.2);
+            background-color: transparentize($default-color, 0.2);
         }
     }
 
@@ -83,7 +83,7 @@
 
     .drop-above {
         border: 0;
-        border-top: 1px solid $orange-red;
+        border-top: 1px solid $default-color;
     }
 }
 

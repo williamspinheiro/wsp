@@ -38,51 +38,58 @@ export class FormController {
 
                 ax.then(response => {
 
-                        self.export(this, response);
+                    self.export(this, response);
 
-                        if (response.data.status == 'success') {
-                            $(document).Toasts('create', {
-                                        class: 'bg-success-default',
-                                        title: 'Ação executada com sucesso.',
-                                        body: `${ response.data.message }`,
-                                        icon: 'fa-solid fa-check',
-                                        delay: 6000,
-                                        autohide: true,
-                                        animation: true,
-                                    });
-
-                            self.redirect(this, response);
-                            self.closeModal(this, response);
-                            self.reloadTable(this);
-
-                            console.log(response.data)
-                        }
-                        
-                    }).catch(errors => {
-                        console.error(errors.response);
-
-                        if (errors.response && errors.response.data.errors)
-                            Object.keys(errors.response.data.errors).forEach(property => {
-                                
-                                    self.defineError(form, errors.response.data.errors, property);
+                    if (response.data.status == 'success') {
+                        $(document).Toasts('create', {
+                                    class: 'bg-success-default',
+                                    title: 'Ação executada com sucesso.',
+                                    body: `${ response.data.message }`,
+                                    icon: 'fa-solid fa-check',
+                                    delay: 6000,
+                                    autohide: true,
+                                    animation: true,
                                 });
-                        else if (errors.response.data.message)
-                            $(document).Toasts('create', {
-                                class: 'bg-danger-default',
-                                title: 'Os dados fornecidos são inválidos.',
-                                body: `&nbsp; ${ errors.response.data.message }`,
-                                icon: 'fa-solid fa-xmark',
-                                delay: 6000,
-                                autohide: true,
-                                animation: true,
+
+                        self.redirect(this, response);
+                        self.closeModal(this, response);
+                        self.reloadTable(this);
+                        self.refreshCalendar(this);
+                    }
+                    
+                }).catch(errors => {
+                    console.error(errors.response);
+                    if (errors.response && errors.response.data.errors)
+                        Object.keys(errors.response.data.errors).forEach(property => {
+                            
+                                self.defineError(form, errors.response.data.errors, property);
                             });
-                        else
-                            alert('Os dados fornecidos são inválidos.');
-                    }).then(response => {
-                        self.spinner.hide();
-                    });
+                    else if (errors.response.data.message)
+                        $(document).Toasts('create', {
+                            class: 'bg-danger-default',
+                            title: 'Os dados fornecidos são inválidos.',
+                            body: `&nbsp; ${ errors.response.data.message }`,
+                            icon: 'fa-solid fa-xmark',
+                            delay: 6000,
+                            autohide: true,
+                            animation: true,
+                        });
+                    else
+                        alert('Os dados fornecidos são inválidos.');
+                }).then(response => {
+                    
+                    self.spinner.hide();
+                });
             }, true);
         });
+    }
+
+    refreshCalendar(form) {
+
+        if (form.hasAttribute('calendar-id') == true) {
+            
+            this.modules.calendar.refresh();
+        }
     }
 
     reloadTable (form) {
@@ -107,6 +114,7 @@ export class FormController {
                             Title: 'Edição',
                             Url: response.data.options.redirect_to,
                         };
+                        
             window.history.pushState(state, state.Title, state.Url);
             
             let properties = [ ...new Set(Array.from(new FormData(form).keys())) ];
@@ -119,7 +127,9 @@ export class FormController {
                 form.appendChild(input)
             }
         } else if (response.data.options && response.data.options.redirect) {
-            window.location.href = response.data.options.redirect;
+            setTimeout(function(){
+                window.location.href = response.data.options.redirect;
+            }, 1500);
         }
     }
 

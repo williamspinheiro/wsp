@@ -25,7 +25,7 @@ class UserSeeder extends Seeder
 
             [ 
                 "name" => "William Pinheiro",
-                "email" => "william.pinheiro@outlook.com.br",
+                "email" => "william.pinheiro@outlook.com",
                 "profile_id" => 1,
             ],
         ];

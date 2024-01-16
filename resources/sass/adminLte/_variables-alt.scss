@@ -38,7 +38,7 @@ $indigo-alt:  #6610f2 !default;
 $purple-alt:  #6f42c1 !default;
 $pink-alt:    #e83e8c !default;
 $red-alt:     #e74c3c !default;
-$orange-red-alt:  #FF291A !default;
+$default-color-alt:  #FF291A !default;
 $yellow-alt:  #f39c12 !default;
 $green-alt:   #00bc8c !default;
 $teal-alt:    #20c997 !default;
@@ -60,7 +60,7 @@ $colors-alt: map-merge((
   "purple":     $purple-alt,
   "pink":       $pink-alt,
   "red":        $red-alt,
-  "orange-red":     $orange-red-alt,
+  "default-color":     $default-color-alt,
   "yellow":     $yellow-alt,
   "green":      $green-alt,
   "teal":       $teal-alt,

@@ -69,13 +69,13 @@
 }
 
 %__dp_active {
-  background: var(--dp-orange-red-color);
+  background: var(--dp-default-color-color);
   color: var(--dp-primary-text-color);
 }
 
 %__dp_range_preview {
-  border-top: 1px dashed var(--dp-orange-red-color);
-  border-bottom: 1px dashed var(--dp-orange-red-color);
+  border-top: 1px dashed var(--dp-default-color-color);
+  border-bottom: 1px dashed var(--dp-default-color-color);
 }
 
 %__hover_date {
@@ -133,15 +133,15 @@
 }
 
 .dp__range_between_week {
-  background: var(--dp-orange-red-color);
+  background: var(--dp-default-color-color);
   color: var(--dp-primary-text-color);
   border-radius: 0;
-  border-top: 1px solid var(--dp-orange-red-color);
-  border-bottom: 1px solid var(--dp-orange-red-color);
+  border-top: 1px solid var(--dp-default-color-color);
+  border-bottom: 1px solid var(--dp-default-color-color);
 }
 
 .dp__today {
-  border: 1px solid var(--dp-orange-red-color);
+  border: 1px solid var(--dp-default-color-color);
 }
 
 .dp__week_num {
@@ -151,22 +151,22 @@
 
 .dp__cell_auto_range {
   border-radius: 0;
-  border-top: 1px dashed var(--dp-orange-red-color);
-  border-bottom: 1px dashed var(--dp-orange-red-color);
+  border-top: 1px dashed var(--dp-default-color-color);
+  border-bottom: 1px dashed var(--dp-default-color-color);
 }
 
 .dp__cell_auto_range_start {
   @extend %__dp_range_border_radius_start;
   @extend %__dp_range_preview;
 
-  border-inline-start: 1px dashed var(--dp-orange-red-color);
+  border-inline-start: 1px dashed var(--dp-default-color-color);
 }
 
 .dp__cell_auto_range_end {
   @extend %__dp_range_border_radius_end;
   @extend %__dp_range_preview;
 
-  border-inline-end: 1px dashed var(--dp-orange-red-color);
+  border-inline-end: 1px dashed var(--dp-default-color-color);
 }
 
 .dp__calendar_header_separator {

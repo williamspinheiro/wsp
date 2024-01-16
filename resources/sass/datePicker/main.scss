@@ -68,8 +68,8 @@
   --dp-tooltip-color: #fafafa;
   --dp-disabled-color-text: #212121;
   --dp-highlight-color: rgb(25 118 210 / 10%);
-  --dp-orange-red-color: #FF291A;
-  --dp-orange-red-disabled-color: #ff8c59;
+  --dp-default-color-color: #FF291A;
+  --dp-default-color-disabled-color: #ff8c59;
 }
 
 @include dark-mode () {

@@ -1,5 +1,5 @@
 <!-- Navbar -->
-<nav class="main-header navbar navbar-expand navbar-light bg-orange-red">
+<nav class="main-header navbar navbar-expand navbar-light bg-default-color">
                 
     <!-- Left navbar links -->
     <ul class="navbar-nav">
@@ -41,7 +41,7 @@
 <!-- /.navbar -->
 
 <!-- Main Sidebar Container -->
-<aside class="main-sidebar sidebar-dark-orange-red elevation-4">
+<aside class="main-sidebar sidebar-dark-default-color elevation-4">
     <!-- Brand Logo -->
     <a href="{{ url('/home') }}" class="brand-link logo-switch">
         <!-- Small brand logo -->
