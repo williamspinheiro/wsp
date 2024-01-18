@@ -14,6 +14,7 @@ return new class extends Migration
         if (Schema::hasTable('users') == false) {
             Schema::create('users', function (Blueprint $table) {
                 $table->increments('id')->unsigned();
+                $table->unsignedInteger('created_by');
                 $table->unsignedInteger('profile_id');
                 $table->string('name');
                 $table->string('alias');
@@ -30,6 +31,7 @@ return new class extends Migration
             });
 
             Schema::table('users', function (Blueprint $table) {
+                $table->foreign('created_by')->references('id')->on('users');
                 $table->foreign('profile_id')->references('id')->on('profiles');
             });
         }

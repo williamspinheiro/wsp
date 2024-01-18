@@ -6,7 +6,7 @@
         </div>
         <div class="custom-file">
             <input type="file" 
-                    class="custom-file-input" 
+                    class="custom-file-input @if(isset($preview))img-preview @endif" 
                     id="{{ $id ?? 'id-file-input-' . Str::slug($label . '-' . $name) }}"
                     name="{{ $name }}"
                     @if(isset($required))

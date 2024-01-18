@@ -76,14 +76,7 @@ class UserController extends Controller
             return back()->withInput()->withErrors('Dados incorretos!');
         }
         
-        $userInserted = $this->users->saveData($request);
-
-        if ($userInserted->original['status'] == 'success') {
-            $request->session()->flash('alert-success', 'Dados pessoais editados com sucesso!');
-            return redirect()->action([UserController::class, 'profile']);
-        }
-
-        return back()->withInput()->withErrors($userInserted->original['message']);
+        return $this->users->saveProfile($request);
     }
 
     /**
@@ -91,14 +84,7 @@ class UserController extends Controller
      */
     public function store(UsersRequest $request)
     {
-        $userInserted = $this->users->saveData($request);
-
-        if ($userInserted->original['status'] == 'success') {
-            $request->session()->flash('alert-success', $userInserted->original['message']);
-            return redirect()->action([UserController::class, 'edit'], $userInserted->original['response']->id);
-        }
-
-        return back()->withInput()->withErrors($userInserted->original['message']);
+        return $this->users->saveData($request);
     }
 
     public function updateJson(Request $request)

@@ -27,7 +27,7 @@ class UserProfilesRequest extends FormRequest
             'profile_id' => 'required|numeric|exists:profiles,id',
         ];
 
-        if (!$this->has('id')) {
+        if ($this->has('password_temporary')) {
             $rules['password'] = 'required|min:8|confirmed|regex:/^(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{6,}$/';
         } else {
             $rules['password'] = 'nullable|min:8|confirmed|regex:/^(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{6,}$/';

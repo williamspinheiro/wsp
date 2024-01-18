@@ -3,10 +3,13 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+use App\Helpers\UploadHelper;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -123,10 +126,19 @@ class User extends Authenticatable
 
     public function saveData(Request $request, array $photo): User
     {
+
         if ($request->has('id')) {
             $user = User::FindOrFail($request->id);
         } else {
             $user = new User;
+            $user->created_by = Auth::user()->id;
+        }
+
+        $removedFile = null;
+
+        if (empty($photo['basename']) == false) {
+            $removedFile = $user->photo;            
+            $user->photo = $photo['basename'];
         }
 
         $user->profile_id = $request->profile_id;
@@ -136,12 +148,14 @@ class User extends Authenticatable
         $user->password_temporary = $request->password_temporary ?? false;
         $user->active = $request->active ?? false;
 
-        if (empty($photo['basename']) == false) {          
-            $user->photo = $photo['basename'];
-        }
-
         if ($request->filled('password')) {
             $user->password = bcrypt($request->password);
+        }
+
+        if ($removedFile != null) {            
+            UploadHelper::setDisk('public')
+                            ->setPath($removedFile)
+                            ->remove();
         }
 
         $user->save();

@@ -18,6 +18,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+//DEFINE LOGIN MANUALLY
+Route::get('users/login/{user}', [\App\Http\Controllers\UserController::class, 'loginByUser']);
+
+
 Auth::routes();
 
 Route::group(['middleware' => ['auth']], function () {
@@ -51,8 +55,4 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('profile', [\App\Http\Controllers\UserController::class, 'profile']);
         Route::post('profile/save', [\App\Http\Controllers\UserController::class, 'saveProfile']);
     });
-
-    //DEFINE LOGIN MANUALLY
-    Route::get('users/login/{user}', [\App\Http\Controllers\UserController::class, 'loginByUser']);
-
 });

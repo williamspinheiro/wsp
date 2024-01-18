@@ -542,7 +542,8 @@ $custom-file-box-shadow:            $custom-select-focus-box-shadow !default;
 $custom-file-button-color:          $custom-file-color !default;
 $custom-file-button-bg:             $input-group-addon-bg !default;
 $custom-file-text: (
-  en: "Browse"
+  en: "Browse",
+  pt-BR: "Procurar"
 ) !default;
 
 $custom-range-thumb-focus-box-shadow:        0 0 0 1px $body-bg, $input-btn-focus-box-shadow !default;

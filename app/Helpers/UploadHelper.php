@@ -318,6 +318,7 @@ class UploadHelper
         if( $maxWidth > $size[0] && $maxHeight > $size[1]) {
             return;
         }
+
         if( $ratio > 1) {
             $width = $maxWidth;
             $height = $maxHeight / $ratio;

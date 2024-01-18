@@ -20,12 +20,14 @@ class UserSeeder extends Seeder
             [
                 "name" => "System",
                 "email" => "system@wsp.com.br",
+                "created_by" => 1,
                 "profile_id" => 1,
             ],
 
             [ 
                 "name" => "William Pinheiro",
                 "email" => "william.pinheiro@outlook.com",
+                "created_by" => 1,
                 "profile_id" => 1,
             ],
         ];
@@ -39,6 +41,7 @@ class UserSeeder extends Seeder
                                     "name" => $user['name'],
                                     "alias" => Str::slug($user['name']),
                                     "email" => $user['email'],
+                                    "created_by" => $user['created_by'],
                                     "profile_id" => $user['profile_id'],
                                     "password" => (!isset($user['password'])) ? bcrypt('System@2024') : bcrypt($user['password']),
                                 ];

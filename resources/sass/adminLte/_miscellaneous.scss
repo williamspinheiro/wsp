@@ -167,6 +167,8 @@
 }
 
 .img-circle {
+  aspect-ratio: 1/1;
+  object-fit: cover;
   @include border-radius(50%);
 }
 

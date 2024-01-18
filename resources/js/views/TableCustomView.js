@@ -33,6 +33,8 @@ export class TableCustomView {
             return this.setTicketStatus(th);
         } else if (type == 'image') {
             return this.setImage(th);
+        } else if (type == 'photo-user') {
+            return this.setPhotoUser(th);
         }
     }
 
@@ -42,6 +44,18 @@ export class TableCustomView {
             mRender: ( data, type, row, e ) => {
 
                     return `<img class="img-fluid" src="${ row[th.getAttribute('column')] }" />`;
+                }, 
+            class: 'text-center'
+        }
+    }
+
+    setPhotoUser(th) {
+        return { 
+            data : th.getAttribute('column'),
+            mRender: ( data, type, row, e ) => {
+
+                    return `<img class="img-circle" src="${ row[th.getAttribute('column')] }" width="50" height="50"/>`;
+                    
                 }, 
             class: 'text-center'
         }
