@@ -19,7 +19,7 @@ class UserSeeder extends Seeder
         $users = [
             [
                 "name" => "System",
-                "email" => "system@wsp.com.br",
+                "email" => "system@system.com",
                 "created_by" => 1,
                 "profile_id" => 1,
             ],
